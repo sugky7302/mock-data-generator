@@ -1,0 +1,19 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["ArvinYang <sugky7302@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+sqlalchemy = "^2.0.21"
+dynaconf = "^3.2.3"
+oracledb = "^1.4.2"
+loguru = "^0.7.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4"

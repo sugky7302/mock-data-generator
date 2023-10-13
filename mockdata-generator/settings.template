@@ -1,0 +1,7 @@
+[database]
+driver="oracle"
+host="${ORACLE_IP}"
+port=${ORACLE_PORT}
+database="${ORACLE_DATABASE}"
+account="${ORACLE_USER}"
+password="${ORACLE_PASSWORD}"

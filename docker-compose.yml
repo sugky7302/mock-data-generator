@@ -1,0 +1,55 @@
+version: "3.8"
+
+name: "amas"
+
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21
+    init: true
+    ports:
+      - target: &oracle_port 1521
+        published: 1521
+        protocol: tcp
+        mode: host
+    networks:
+      amas-net:
+        ipv4_address: &oracle_ip 172.1.0.2
+    environment:
+      ORACLE_PASSWORD: "0000"
+      APP_USER: &oracle_user "ueda"
+      APP_USER_PASSWORD: &oracle_pwd "ueda"
+    volumes:
+      - ./oracle/initdb:/container-entrypoint-initdb.d
+      - ./oracle/startdb:/container-entrypoint-startdb.d
+  mockdata-generator:
+    build:
+      context: ./mockdata-generator
+      dockerfile: Dockerfile
+      args:
+        ORACLE_PORT: *oracle_port
+        ORACLE_IP: *oracle_ip
+        ORACLE_USER: *oracle_user
+        ORACLE_PASSWORD: *oracle_pwd
+        ORACLE_DATABASE: "XEPDB1"
+    init: true
+    networks:
+      amas-net:
+        ipv4_address: 172.1.0.3
+    volumes:
+      - ./mockdata-generator/pyproject.toml:/app/pyproject.toml
+      # - ./mockdata-generator/poetry.lock:/app/poetry.lock
+      - ./mockdata-generator/lib/:/app/lib/
+      - ./mockdata-generator/src/:/app/src/
+      - ./mockdata-generator/tests/:/app/tests/
+
+# volumes:
+#   oracle-volume:
+
+networks:
+  amas-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.1.0.0/16
+          gateway: 172.1.0.1
