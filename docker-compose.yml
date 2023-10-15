@@ -32,6 +32,8 @@ services:
         ORACLE_PASSWORD: *oracle_pwd
         ORACLE_DATABASE: "XEPDB1"
     init: true
+    environment:
+      TZ: "Asia/Taipei"
     networks:
       amas-net:
         ipv4_address: 172.1.0.3

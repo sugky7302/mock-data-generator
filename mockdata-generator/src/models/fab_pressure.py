@@ -6,12 +6,14 @@
 could not assemble any primary key columns for mapped table 'TableName'
 """
 from lib.orm import BASE
-from sqlalchemy import Column, String, Float, Date
+from sqlalchemy import Column, String, Float, Date, UniqueConstraint
+
 
 class FabPressure(BASE):
     __tablename__ = 'VW_SPC_CHARTDATA_CHAM_PRESS'
 
-    fab=Column("FAB", String(20))
+    fab=Column("FAB", String(20), nullable=False, primary_key=True)
     time=Column("UPDATE_TIME", Date, primary_key=True)
-    eqp=Column("PROCESSUNIT", String(20))
-    pressure=Column("MEAN_VALUE", Float)
+    eqp=Column("PROCESSUNIT", String(20), nullable=False, primary_key=True)
+    pressure=Column("MEAN_VALUE", Float, nullable=False, primary_key=True)
+    
